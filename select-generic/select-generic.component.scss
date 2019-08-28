@@ -1,0 +1,14 @@
+.generic-select {
+    position: relative;
+    .small-spinner {
+        display: block;
+        position: absolute;
+        top: 5px;
+        left : 10px;
+    }
+    .error-msg {
+        font-size: 1.2rem;
+        color: #cd3c14;
+        text-align: left;
+    }
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<div class="generic-select">
+  <l-select2
+    [(ngModel)]="this.selectedValue"
+    (ngModelChange)="this.onValueChange($event)"
+    [data]="this.data"
+    [disabled]="!this.enabled || this.loading">
+  </l-select2>
+  <div *ngIf="this.loading" class="small-spinner"></div>
+  <div *ngIf="this.failure" class="error-msg"><strong>{{ 'GEN0005' | translate }}</strong> {{ this.failure.message }}</div>
+  <div *ngIf="this.debug"   class="alert alert-warning" role="alert">
+    <div class="alert-content">
+        <p *ngIf="this.formControlName" style="font-weight: bolder">#{{ formControlName }}</p>
+        Selected value: {{ this.selectedValue | json }}
+    </div>
+  </div>
+</div>
