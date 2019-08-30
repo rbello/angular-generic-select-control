@@ -1,0 +1,31 @@
+{
+  "name": "angular-generic-select-control",
+  "version": "1.0.7",
+  "license": "No licence",
+  "scripts": {
+    "ng": "ng"
+  },
+  "private": false,
+  "dependencies": {
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@angular/forms": "^5.0.0",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/platform-browser-dynamic": "^5.0.0",
+    "@angular/router": "^5.0.0",
+    "jquery": "^1.12.3",
+    "rxjs": "^5.1.0",
+    "select2": "^4.0.4",
+    "zone.js": "^0.8.14"
+  },
+  "devDependencies": {
+    "@angular/cli": "1.5.5",
+    "@angular/compiler-cli": "^5.0.0",
+    "@angular/language-service": "^5.0.0",
+    "@types/node": "~6.0.60",
+    "ts-node": "~3.2.0",
+    "tslint": "~5.7.0",
+    "typescript": "~2.4.2"
+  }
+}
