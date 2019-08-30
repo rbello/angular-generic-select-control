@@ -160,6 +160,9 @@ export class SelectGenericComponent<T> implements OnInit, OnChanges, OnDestroy, 
   // Indique si l'on doit ajouter une valeur vide
   @Input() addEmptyValue = false;
 
+  // Le texte à afficher pour la valeur vide
+  @Input() emptyValueText = '';
+
   // Evénement levé quand le champ cherche ses données.
   @Output() dataProvider: EventEmitter<GenericSelectDataRequest<T>> = new EventEmitter<GenericSelectDataRequest<T>>();
 
@@ -221,6 +224,11 @@ export class SelectGenericComponent<T> implements OnInit, OnChanges, OnDestroy, 
 
   registerOnChange(fn: any): void {
     this.propagateChange = fn;
+    // Si l'enregistrement de la fonction de callback du changement est enregistrée
+    // après la sélection de la valeur sélectionnée, on répète le changement
+    if (this.selectedValue) {
+      this.propagateChange(this.selectedValue);
+    }
   }
 
   ngOnChanges(change): void {
@@ -344,7 +352,7 @@ export class SelectGenericComponent<T> implements OnInit, OnChanges, OnDestroy, 
 
     // Ajout de la valeur vide (si demandé)
     if (results.length > 0 && this.addEmptyValue) {
-      results.unshift({id: '-1', text: ' '});
+      results.unshift({id: '-1', text: this.emptyValueText});
     }
 
     // On enregistre les données
@@ -457,15 +465,15 @@ export class SelectGenericComponent<T> implements OnInit, OnChanges, OnDestroy, 
    */
   private set(selectedValue: T, propagateChange: boolean, restore: boolean = false): void {
 
-    // Sélection de la valeur vide
-    if ((!!selectedValue && 'id' in selectedValue && selectedValue['id'] === '-1') || (selectedValue as any) === '') {
-      selectedValue = null;
-    }
-
     // On vérifie que l'on travaille bien avec des objets
     if (!!selectedValue !== null && typeof selectedValue !== 'object') {
       this.handleError(new Error('la valeur à sélectionner doit être un objet, actuellement: ' + (typeof selectedValue)));
       return;
+    }
+
+    // Sélection de la valeur vide
+    if ((!!selectedValue && 'id' in selectedValue && selectedValue['id'] === '-1') || (selectedValue as any) === '') {
+      selectedValue = null;
     }
 
     if (!!selectedValue) {
@@ -475,14 +483,13 @@ export class SelectGenericComponent<T> implements OnInit, OnChanges, OnDestroy, 
     else {
       // Il s'agit de la valeur vide : on supprime la sélection
       if (this.addEmptyValue) {
-        this.selectedValue = ({id: '-1', text: ''} as any) as T;
+        this.selectedValue = ({id: '-1', text: this.emptyValueText} as any) as T;
       }
       // Valeur NULL mais pas de ligne vide
       else {
         if (this.strict) {
           throw new Error('Impossible de mettre une valeur NULL sur un select generique sans valeur vide');
         }
-        this.selectedValue = null;
         return;
       }
     }
